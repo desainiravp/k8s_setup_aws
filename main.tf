@@ -2,7 +2,10 @@ provider "aws" {
   region = "us-east-1"
 }
 
-# Security Group
+variable "ssh_user" {
+  default = "ubuntu"
+}
+
 resource "aws_security_group" "k8s_sg" {
   name        = "k8s_sg"
   description = "Allow Kubernetes ports"
@@ -39,7 +42,6 @@ resource "aws_security_group" "k8s_sg" {
   }
 }
 
-# Key Pair
 resource "aws_key_pair" "k8s_key" {
   key_name   = "k8s_key"
   public_key = file("~/.ssh/id_rsa.pub")
@@ -55,6 +57,19 @@ resource "aws_instance" "master" {
   tags = {
     Name = "k8s-master"
   }
+
+  # Copy setup script
+  provisioner "file" {
+    source      = "k8s_setup.sh"
+    destination = "/home/ubuntu/k8s_setup.sh"
+
+    connection {
+      type        = "ssh"
+      user        = var.ssh_user
+      private_key = file("~/.ssh/id_rsa")
+      host        = self.public_ip
+    }
+  }
 }
 
 # Worker Nodes (2 nodes)
@@ -68,4 +83,19 @@ resource "aws_instance" "worker" {
   tags = {
     Name = "k8s-worker-${count.index + 1}"
   }
+
+  # Copy setup script
+  provisioner "file" {
+    source      = "k8s_setup.sh"
+    destination = "/home/ubuntu/k8s_setup.sh"
+
+    connection {
+      type        = "ssh"
+      user        = var.ssh_user
+      private_key = file("~/.ssh/id_rsa")
+      host        = self.public_ip
+    }
+  }
+
 }
+
