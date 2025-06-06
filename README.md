@@ -13,3 +13,4 @@ kubeadm token create --print-join-command
  sudo kubeadm Join .......
 
  Kubernetes cluster on ubuntu 24.04 with 1 master and 2 worker nodes
+ reference https://www.cherryservers.com/blog/install-kubernetes-ubuntu
