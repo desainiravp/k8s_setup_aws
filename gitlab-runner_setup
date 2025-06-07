@@ -1,0 +1,15 @@
+curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
+sudo apt-get install gitlab-runner
+sudo gitlab-runner register
+kubectl get nodes
+kubectl config get-contexts
+ps aux | grep gitlab-runner
+sudo mkdir -p /home/gitlab-runner/.kube
+sudo cp /home/ubuntu/.kube/config /home/gitlab-runner/.kube/config
+sudo chown -R gitlab-runner:gitlab-runner /home/gitlab-runner/.kube
+kubectl get nodes
+sudo nano /home/gitlab-runner/.bashrc
+export KUBECONFIG=/home/gitlab-runner/.kube/config
+sudo su - gitlab-runner -s /bin/bash
+source ~/.bashrc
+kubectl get nodes
