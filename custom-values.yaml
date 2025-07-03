@@ -1,0 +1,45 @@
+grafana:
+  service:
+    type: NodePort
+    nodePort: 32000
+  adminPassword: "admin123"
+  defaultDashboardsEnabled: true
+  sidecar:
+    dashboards:
+      enabled: true
+    datasources:
+      enabled: true
+
+prometheus:
+  service:
+    type: NodePort
+    nodePort: 32001
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+
+alertmanager:
+  service:
+    type: NodePort
+    nodePort: 32002
+
+# Enable kube-state-metrics for Kubernetes metadata
+kubeStateMetrics:
+  enabled: true
+  # Optional: force to same node as Prometheus to avoid networking issues
+  nodeSelector:
+    kubernetes.io/hostname: ip-172-31-47-181  # Replace with your Prometheus node name
+
+# Enable node-exporter for per-node CPU/memory/disk
+prometheus-node-exporter:
+  enabled: true
+
+# Reduce Prometheus stack resource usage for small nodes
+resources:
+  limits:
+    cpu: 300m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
