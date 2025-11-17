@@ -187,14 +187,9 @@ helm install loki grafana/loki-stack \
 * Grafana Dashboard
 * Loki Logs
 
-You can now explore metrics, dashboards, and logs from your cluster.
+
 
 ---
 
-If you want, I can also create:
 
-* `k8s_setup.sh` full script
-* `custom-values.yaml`
-* Architecture diagram
-* Commands to expose Grafana and Prometheus
 
