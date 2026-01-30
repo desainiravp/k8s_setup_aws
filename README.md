@@ -1,34 +1,3 @@
-# k8s_setup_aws
-**SSH into all Node**
-**Run Following command** 
-mkdir k8s
-cd k8s
-Add k8s_setup.sh file
-chmod +x k8s_setup.sh
-**on Master Node**
-./k8s_setup.sh master
-kubeadm token create --print-join-command
- **on worker Node**
- ./k8s_setup.sh worker
- sudo kubeadm Join .......
-
- Kubernetes cluster on ubuntu 24.04 with 1 master and 2 worker nodes
- reference https://www.cherryservers.com/blog/install-kubernetes-ubuntu
-
- Monitoring setup with helm
--curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
--helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
--helm repo add grafana https://grafana.github.io/helm-charts
--helm repo update
--kubectl create namespace monitoring
--helm install prometheus-stack prometheus-community/kube-prometheus-stack \
-  -n monitoring \
-  -f custom-values.yaml
--helm install loki grafana/loki-stack \
-  -n monitoring \
-  --set grafana.enabled=false \
-  --set promtail.enabled=true
-----------------------------------------------------------------
 # Kubernetes Cluster Setup on AWS (Ubuntu 24.04)
 
 This guide helps you set up a **Kubernetes cluster** on **Ubuntu 24.04** with **1 Master node** and **2 Worker nodes**, along with **Monitoring (Prometheus + Grafana + Loki)** using Helm.
@@ -111,24 +80,20 @@ sudo kubeadm join <token-command-from-master>
 
 ---
 
-## 📘 Reference Used
+## 📘 Reference
 
-Based on the guide provided by Cherry Servers:
-
-```
-https://www.cherryservers.com/blog/install-kubernetes-ubuntu
-```
+This guide is based on the [Cherry Servers Kubernetes installation guide](https://www.cherryservers.com/blog/install-kubernetes-ubuntu).
 
 ---
 
 # 📊 Monitoring Setup Using Helm
 
-This will install:
+This setup installs a complete monitoring stack:
 
-* Prometheus
-* Grafana
-* Loki (Logs)
-* Promtail (Log collector)
+* **Prometheus** - Metrics collection and alerting
+* **Grafana** - Visualization dashboards
+* **Loki** - Log aggregation
+* **Promtail** - Log collector agent
 
 ---
 
@@ -181,15 +146,28 @@ helm install loki grafana/loki-stack \
 
 ---
 
-# 🎉 Your Kubernetes Cluster with Monitoring Is Ready!
+# ✅ Next Steps
 
-* Prometheus UI
-* Grafana Dashboard
-* Loki Logs
+Once deployed, you can access:
 
-
+* **Prometheus UI** - Metrics and alerting
+* **Grafana Dashboard** - Visualization and analytics
+* **Loki Logs** - Centralized log viewing
 
 ---
+
+## 📚 Additional Resources
+
+* [Kubernetes Documentation](https://kubernetes.io/docs/)
+* [Prometheus Documentation](https://prometheus.io/docs/)
+* [Grafana Documentation](https://grafana.com/docs/)
+* [Loki Documentation](https://grafana.com/docs/loki/latest/)
+
+---
+
+## ❓ Troubleshooting
+
+For common issues and solutions, refer to the official Kubernetes and Helm documentation linked above.
 
 
 
